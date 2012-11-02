@@ -17,8 +17,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "gmailer"
   gem.homepage = "http://github.com/nolanblew/gmailer"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Sets up a project to send an email through GMail SMTP}
+  gem.description = %Q{Sets up a project that allows sending out emails though a Gmail account}
   gem.email = "nolanblew@hotmail.com"
   gem.authors = ["Nolan Blew"]
   # dependencies defined in Gemfile
