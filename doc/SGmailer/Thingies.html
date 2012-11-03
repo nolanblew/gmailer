@@ -244,13 +244,13 @@
         
         <span class="ruby-comment">#Check for directory</span>
         <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-string">&quot;app/mailers&quot;</span>
-                <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/mailers/gmailer.rb&quot;</span>
+                <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/mailers/sgmailer.rb&quot;</span>
                         <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
                 <span class="ruby-keyword">end</span>
         <span class="ruby-keyword">end</span>
         
         <span class="ruby-comment">#Check for templates</span>
-        <span class="ruby-keyword">if</span> ((<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/gmailer/email_plain.html.erb&quot;</span>) <span class="ruby-operator">||</span> (<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/gmailer/email_html.html.erb&quot;</span>))
+        <span class="ruby-keyword">if</span> ((<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/sgmailer/email_plain.html.erb&quot;</span>) <span class="ruby-operator">||</span> (<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/sgmailer/email_html.html.erb&quot;</span>))
                 <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
         <span class="ruby-keyword">end</span>
         
@@ -304,7 +304,7 @@ ActionMailer::Base.smtp_settings = {
 }&quot;</span>
                 
                 <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:emailer</span>)
-                        <span class="ruby-identifier">rt</span> = <span class="ruby-node">&quot;class Gmailer &lt; ActionMailer::Base
+                        <span class="ruby-identifier">rt</span> = <span class="ruby-node">&quot;class SGmailer &lt; ActionMailer::Base
   default :from =&gt; \&quot;#{@username}\&quot;
   def email(recipient, subject)
         mail(:to =&gt;    recipient, :subject =&gt; subject) do |format|

@@ -2,7 +2,7 @@ require 'sgmailer'
 first_rg = ARGV[0]
 
 if (first_rg == "generate")
-	puts Gmailer.generate(ARGV[1], ARGV[2], ARGV)
+	puts SGmailer.generate(ARGV[1], ARGV[2], ARGV)
 elsif (first_rg == "--help")
 	puts "Commands:"
 	puts "sgmailer generate [username] [password] ([flags])"

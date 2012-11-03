@@ -147,9 +147,9 @@
             <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 2</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">generate</span> <span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">args</span>
                 
-        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">username</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">nil?</span>, <span class="ruby-identifier">args</span>)
+        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">username</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">nil?</span>)
         
-                <span class="ruby-identifier">helper</span> = <span class="ruby-constant">Thingies</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>)
+                <span class="ruby-identifier">helper</span> = <span class="ruby-constant">Thingies</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">args</span>)
         
                 <span class="ruby-comment">#Check to see if there if the gmailer file already exists</span>
                 <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tChecking files...&quot;</span>
@@ -172,29 +172,29 @@
                         <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">mkdir</span>(<span class="ruby-string">&quot;app/mailers&quot;</span>, <span class="ruby-value">755</span>)
                         <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tCreated mailer directory&quot;</span>
                 <span class="ruby-keyword">end</span>
-                <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/mailers/gmailer.rb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
+                <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/mailers/sgmailer.rb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
                 <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">helper</span>.<span class="ruby-identifier">get_text</span>(<span class="ruby-value">:emailer</span>)
                 <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
-                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded Mailer in app/mailers/gmailer.rb&quot;</span>
+                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded Mailer in app/mailers/sgmailer.rb&quot;</span>
                 
                 <span class="ruby-comment">#Generate email scaffolds</span>
-                <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-string">&quot;app/views/gmailer&quot;</span>)
-                        <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">mkdir</span>(<span class="ruby-string">&quot;app/views/gmailer&quot;</span>)
-                        <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tCreated views/gmailer directory&quot;</span>
+                <span class="ruby-keyword">if</span> (<span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-string">&quot;app/views/sgmailer&quot;</span>)
+                        <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">mkdir</span>(<span class="ruby-string">&quot;app/views/sgmailer&quot;</span>)
+                        <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tCreated views/sgmailer directory&quot;</span>
                 <span class="ruby-keyword">end</span>
                 
-                <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/views/gmailer/email_plain.html.erb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
+                <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/views/sgmailer/email_plain.html.erb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
                 <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">helper</span>.<span class="ruby-identifier">get_text</span>(<span class="ruby-value">:plain</span>)
                 <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
-                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded plain text email scaffold in app/views/gmailer/email_plain.html.erb&quot;</span>
+                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded plain text email scaffold in app/views/sgmailer/email_plain.html.erb&quot;</span>
                 
-                <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/views/gmailer/email_html.html.erb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
+                <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/views/sgmailer/email_html.html.erb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
                 <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">helper</span>.<span class="ruby-identifier">get_text</span>(<span class="ruby-value">:html</span>)
                 <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
-                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded HTML scaffold in app/views/gmailer/email_html.html.erb&quot;</span>
+                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded HTML scaffold in app/views/sgmailer/email_html.html.erb&quot;</span>
                 
                 <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\nComplete! Edit the email scaffolds with your email (and dynamic text).&quot;</span>
-                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;To send an email, in the controller use: Gmailer.email([to address], [subject]).deliver&quot;</span>
+                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;To send an email, in the controller use: SGmailer.email([to address], [subject]).deliver&quot;</span>
                 
         <span class="ruby-keyword">else</span>
                 <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tError. Please put your gmail username and password.&quot;</span>

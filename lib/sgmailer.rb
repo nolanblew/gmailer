@@ -26,29 +26,29 @@ class SGmailer
 				Dir.mkdir("app/mailers", 755)
 				puts "\tCreated mailer directory"
 			end
-			file = File.new("app/mailers/gmailer.rb", "w")
+			file = File.new("app/mailers/sgmailer.rb", "w")
 			file.puts helper.get_text(:emailer)
 			file.close
-			puts "\tAdded Mailer in app/mailers/gmailer.rb"
+			puts "\tAdded Mailer in app/mailers/sgmailer.rb"
 			
 			#Generate email scaffolds
-			if (!File.directory? "app/views/gmailer")
-				Dir.mkdir("app/views/gmailer")
-				puts "\tCreated views/gmailer directory"
+			if (!File.directory? "app/views/sgmailer")
+				Dir.mkdir("app/views/sgmailer")
+				puts "\tCreated views/sgmailer directory"
 			end
 			
-			file = File.new("app/views/gmailer/email_plain.html.erb", "w")
+			file = File.new("app/views/sgmailer/email_plain.html.erb", "w")
 			file.puts helper.get_text(:plain)
 			file.close
-			puts "\tAdded plain text email scaffold in app/views/gmailer/email_plain.html.erb"
+			puts "\tAdded plain text email scaffold in app/views/sgmailer/email_plain.html.erb"
 			
-			file = File.new("app/views/gmailer/email_html.html.erb", "w")
+			file = File.new("app/views/sgmailer/email_html.html.erb", "w")
 			file.puts helper.get_text(:html)
 			file.close
-			puts "\tAdded HTML scaffold in app/views/gmailer/email_html.html.erb"
+			puts "\tAdded HTML scaffold in app/views/sgmailer/email_html.html.erb"
 			
 			puts "\nComplete! Edit the email scaffolds with your email (and dynamic text)."
-			puts "To send an email, in the controller use: Gmailer.email([to address], [subject]).deliver"
+			puts "To send an email, in the controller use: SGmailer.email([to address], [subject]).deliver"
 			
 		else
 			puts "\tError. Please put your gmail username and password."
@@ -85,13 +85,13 @@ class SGmailer::Thingies
 		
 		#Check for directory
 		if File.directory? "app/mailers"
-			if File.exists? "app/mailers/gmailer.rb"
+			if File.exists? "app/mailers/sgmailer.rb"
 				return false
 			end
 		end
 		
 		#Check for templates
-		if ((File.exists? "app/views/gmailer/email_plain.html.erb") || (File.exists? "app/views/gmailer/email_html.html.erb"))
+		if ((File.exists? "app/views/sgmailer/email_plain.html.erb") || (File.exists? "app/views/sgmailer/email_html.html.erb"))
 			return false
 		end
 		
@@ -120,7 +120,7 @@ ActionMailer::Base.smtp_settings = {
 }"
 		
 		elsif (text == :emailer)
-			rt = "class Gmailer < ActionMailer::Base
+			rt = "class SGmailer < ActionMailer::Base
   default :from => \"#{@username}\"
   def email(recipient, subject)
 	mail(:to =>	recipient, :subject => subject) do |format|
