@@ -1,7 +1,7 @@
 module Gmailer
 	def generate username, password
 	
-		if (username != "" && password != "")
+		if !(username == "" && password == "")
 			#Check to see if there this already exists in enviornmnet.rb
 			File.new("file.rb", "w")
 			file = File.open("file.rb");
