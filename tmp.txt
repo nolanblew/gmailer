@@ -1,2 +1,0 @@
-username: nolanblew@gmail.com
-password: passwords
