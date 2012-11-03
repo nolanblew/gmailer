@@ -22,6 +22,28 @@ class Gmailer
 			puts "Modified config/environment.rb"
 			
 			#Generate file for mailer
+			if (!File.directory? "app/mailers")
+				Dir.mkdir("app/mailers", 755)
+				puts "Created mailer directory"
+			end
+			file = File.new("app/mailers/gmailer.rb", "w")
+			file.puts helper.get_text(:emailer)
+			file.close
+			puts "Added Mailer in app/mailers/gmailer.rb"
+			
+			#Generate email scaffolds
+			file = File.new("app/views/email_plain.html.erb", "w")
+			file.puts helper.get_text(:plain)
+			file.close
+			puts "Added plain text email scaffold in app/views/email_plain.html.erb"
+			
+			file = File.new("app/views/email_html.html.erb", "w")
+			file.puts helper.get_text(:html)
+			file.close
+			puts "Added HTML scaffold in app/views/email_html.html.erb"
+			
+			puts "\nComplete! Edit the email scaffolds with your email (and dynamic text)."
+			puts "To send an email, in the controller use: Gmailer.email([to address], [subject]).deliver"
 			
 		else
 			puts "Error. Please put your gmail username and password."
@@ -56,8 +78,10 @@ class Gmailer::Thingies
 		end
 		
 		#Check for directory
-		if File.directory? "app/emailer"
-			return false
+		if File.directory? "app/mailers"
+			if File.exists? "app/mailers/gmailer.rb"
+				return false
+			end
 		end
 		
 		#Check for templates
@@ -88,6 +112,29 @@ ActionMailer::Base.smtp_settings = {
 	:enable_starttls_auto => true,
 	:openssl_verify_mode => \"none\"
 }"
+		
+		elsif (text == :emailer)
+			"class Gmailer < ActionMailer::Base
+  default :from => \"#{@username}\"
+  def email(recipient, subject)
+	mail(:to =>	recipient, :subject => subject) do |format|
+		format.text { render \"email_plain.html.erb\" }
+		format.html { render \"email_html.html.erb\" }
+	end
+  end
+end"
+
+		elsif (text == :plain)
+			"This is a sample email.
+			Your system works!
+			
+			YIPPEEE!!!!"
+			
+		elsif (text == :html)
+			"This is a sample email.</br>
+			<span style='color:green'>Your system <b>works!</b></span><br/><br/>
+			
+			YIPEEEEE!!!!"
 		end
 	end
 end
