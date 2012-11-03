@@ -8,4 +8,5 @@ Gem::Specification.new do |s|
 	s.email		= "nolanblew@hotmail.com"
 	s.files		= ["lib/gmailer.rb"]
 	s.homepage	= "http://rubygems.org/gems/gmailer"
+	s.executables << 'gmailer'
 end
