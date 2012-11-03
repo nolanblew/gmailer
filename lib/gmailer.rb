@@ -6,47 +6,52 @@ class Gmailer
 			helper = Thingies.new(username, password)
 		
 			#Check to see if there if the gmailer file already exists
-			puts "Checking files..."
+			puts "\tChecking files..."
 			
 			if !helper.check_files?
-				puts "Error, you already have an emailer system in place. Please remove all traces of the emailer system before generating a new one."
+				puts "\tError, you already have an emailer system in place. Please remove all traces of the emailer system before generating a new one."
 				return false
 			end
 		
-			puts "Ready to go!"
+			puts "\tReady to go!"
 			#Add email info to the end of environment.rb
 			file = File.open("config/environment.rb", "a")
 			file.puts helper.get_text(:environment)
 			file.close
 			
-			puts "Modified config/environment.rb"
+			puts "\tModified config/environment.rb"
 			
 			#Generate file for mailer
 			if (!File.directory? "app/mailers")
 				Dir.mkdir("app/mailers", 755)
-				puts "Created mailer directory"
+				puts "\tCreated mailer directory"
 			end
 			file = File.new("app/mailers/gmailer.rb", "w")
 			file.puts helper.get_text(:emailer)
 			file.close
-			puts "Added Mailer in app/mailers/gmailer.rb"
+			puts "\tAdded Mailer in app/mailers/gmailer.rb"
 			
 			#Generate email scaffolds
-			file = File.new("app/views/email_plain.html.erb", "w")
+			if (!File.directory? "app/views/gmailer")
+				Dir.mkdir("app/views/gmailer")
+				puts "\tCreated views/gmailer directory"
+			end
+			
+			file = File.new("app/views/gmailer/email_plain.html.erb", "w")
 			file.puts helper.get_text(:plain)
 			file.close
-			puts "Added plain text email scaffold in app/views/email_plain.html.erb"
+			puts "\tAdded plain text email scaffold in app/views/gmailer/email_plain.html.erb"
 			
-			file = File.new("app/views/email_html.html.erb", "w")
+			file = File.new("app/views/gmailer/email_html.html.erb", "w")
 			file.puts helper.get_text(:html)
 			file.close
-			puts "Added HTML scaffold in app/views/email_html.html.erb"
+			puts "\tAdded HTML scaffold in app/views/gmailer/email_html.html.erb"
 			
 			puts "\nComplete! Edit the email scaffolds with your email (and dynamic text)."
 			puts "To send an email, in the controller use: Gmailer.email([to address], [subject]).deliver"
 			
 		else
-			puts "Error. Please put your gmail username and password."
+			puts "\tError. Please put your gmail username and password."
 		end
 		
 	end
@@ -85,7 +90,7 @@ class Gmailer::Thingies
 		end
 		
 		#Check for templates
-		if ((File.exists? "app/views/email_plain.html.erb") || (File.exists? "app/views/email_html.html.erb"))
+		if ((File.exists? "app/views/gmailer/email_plain.html.erb") || (File.exists? "app/views/gmailer/email_html.html.erb"))
 			return false
 		end
 		
