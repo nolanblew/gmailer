@@ -1,7 +1,7 @@
-class Gmailer
-	def self.generate username, password
+class SGmailer
+	def self.generate username, password, args
 			
-		if !(username.nil? || password.nil?)
+		if !(username.nil? || password.nil?, args)
 		
 			helper = Thingies.new(username, password)
 		
@@ -57,11 +57,12 @@ class Gmailer
 	end
 end	
 
-class Gmailer::Thingies
+class SGmailer::Thingies
 
-	def initialize(username, password)
+	def initialize(username, password, args)
 		@username = username
 		@password = password
+		@args = args
 	end
 
 	def check_files?
@@ -119,16 +120,22 @@ ActionMailer::Base.smtp_settings = {
 }"
 		
 		elsif (text == :emailer)
-			"class Gmailer < ActionMailer::Base
+			rt = "class Gmailer < ActionMailer::Base
   default :from => \"#{@username}\"
   def email(recipient, subject)
 	mail(:to =>	recipient, :subject => subject) do |format|
-		format.text { render \"email_plain.html.erb\" }
-		format.html { render \"email_html.html.erb\" }
-	end
+		"
+		if !arg_exists?("--no-plain")
+			rt = rt + "format.text { render \"email_plain.html.erb\" }\n"
+		end
+		if !arg_exists?("--no-html")
+			rt = rt + "format.html { render \"email_html.html.erb\" }\n"
+		end
+	rt = rt + "end
   end
 end"
-
+			
+			rt
 		elsif (text == :plain)
 			"This is a sample email.
 			Your system works!
@@ -141,5 +148,15 @@ end"
 			
 			YIPEEEEE!!!!"
 		end
+	end
+	
+	
+	def arg_exists? cmd
+		@args.each do |a|
+			if a == cmd
+				return true
+			end
+		end
+		false
 	end
 end

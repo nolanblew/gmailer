@@ -1,0 +1,15 @@
+require 'sgmailer'
+first_rg = ARGV[0]
+
+if (first_rg == "generate")
+	puts Gmailer.generate(ARGV[1], ARGV[2], ARGV)
+elsif (first_rg == "--help")
+	puts "Commands:"
+	puts "sgmailer generate [username] [password] ([flags])"
+	puts "\tusername: your gmail username"
+	puts "\tpassword: your gmail password"
+	puts "\tflags:\n\t\t--no-plain: Do not include plain-text template in email"
+	puts "\n\t\t--no-html: Do not include HTML template in email"
+else
+	puts "Error, unrecognized command. Please type in 'sgmailer --help' for help."
+end
