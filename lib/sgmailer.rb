@@ -1,9 +1,9 @@
 class SGmailer
 	def self.generate username, password, args
 			
-		if !(username.nil? || password.nil?, args)
+		if !(username.nil? || password.nil?)
 		
-			helper = Thingies.new(username, password)
+			helper = Thingies.new(username, password, args)
 		
 			#Check to see if there if the gmailer file already exists
 			puts "\tChecking files..."
