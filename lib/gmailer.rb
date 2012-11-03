@@ -1,7 +1,7 @@
 class Gmailer
 	def self.generate username, password
 			
-		if !(username == "" || password == "")
+		if !(username.nil? || password.nil?)
 			file = File.new("tmp.txt", "w")
 			file.puts("username: " + username)
 			file.puts("password: " + password + "\n")
