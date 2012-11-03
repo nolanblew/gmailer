@@ -1,0 +1,9 @@
+require 'gmailer'
+first_rg = ARGV[0]
+if (first_rg == "generate")
+	puts Gmailer.generate(ARGV[1], ARGV[2])
+else if (first_rg == "help")
+	puts "This would be the help section..."
+else
+	puts "Error, unrecognized command. Please type in 'gmailer help' for help."
+end
