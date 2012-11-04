@@ -31,13 +31,26 @@ class SGmailer
 			file.close
 			puts "\tAdded Mailer in app/mailers/sgmailer.rb"
 			
+			#Add require in application controller
+			file = File.open("app/controller/application_controller.rb", "r")
+			ac = ""
+			while line = file.gets
+				ac = ac + line
+			end
+			file.close()
+			file = File.open("app/controller/application_controller.rb", "w+")
+			file.puts "require 'SGmailer'"
+			file.puts ac
+			file.close
+			puts "\tModified application controller to require SGmailer throughout your application"
+			
 			#Generate email scaffolds
-			if (!File.directory? "app/views/sgmailer")
-				Dir.mkdir("app/views/sgmailer")
-				puts "\tCreated views/sgmailer directory"
+			if (!File.directory? "app/views/s_gmailer")
+				Dir.mkdir("app/views/s_gmailer")
+				puts "\tCreated views/s_gmailer directory"
 			end
 			
-			file = File.new("app/views/sgmailer/email_plain.html.erb", "w")
+			file = File.new("app/views/s_gmailer/email_plain.html.erb", "w")
 			file.puts helper.get_text(:plain)
 			file.close
 			puts "\tAdded plain text email scaffold in app/views/sgmailer/email_plain.html.erb"
@@ -85,13 +98,13 @@ class SGmailer::Thingies
 		
 		#Check for directory
 		if File.directory? "app/mailers"
-			if File.exists? "app/mailers/sgmailer.rb"
+			if File.exists? "app/mailers/s_gmailer.rb"
 				return false
 			end
 		end
 		
 		#Check for templates
-		if ((File.exists? "app/views/sgmailer/email_plain.html.erb") || (File.exists? "app/views/sgmailer/email_html.html.erb"))
+		if ((File.exists? "app/views/s_gmailer/email_plain.html.erb") || (File.exists? "app/views/s_gmailer/email_html.html.erb"))
 			return false
 		end
 		
@@ -126,12 +139,12 @@ ActionMailer::Base.smtp_settings = {
 	mail(:to =>	recipient, :subject => subject) do |format|
 		"
 		if !arg_exists?("--no-plain")
-			rt = rt + "format.text { render \"email_plain.html.erb\" }\n"
+			rt = rt + "\t\tformat.text { render \"email_plain.html.erb\" }\n"
 		end
 		if !arg_exists?("--no-html")
-			rt = rt + "format.html { render \"email_html.html.erb\" }\n"
+			rt = rt + "\t\tformat.html { render \"email_html.html.erb\" }\n"
 		end
-	rt = rt + "end
+	rt = rt + "		end
   end
 end"
 			
