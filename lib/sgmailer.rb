@@ -32,13 +32,13 @@ class SGmailer
 			puts "\tAdded Mailer in app/mailers/sgmailer.rb"
 			
 			#Add require in application controller
-			file = File.open("app/controller/application_controller.rb", "r")
+			file = File.open("app/controllers/application_controller.rb", "r")
 			ac = ""
 			while line = file.gets
 				ac = ac + line
 			end
 			file.close()
-			file = File.open("app/controller/application_controller.rb", "w+")
+			file = File.open("app/controllers/application_controller.rb", "w+")
 			file.puts "require 'SGmailer'"
 			file.puts ac
 			file.close
@@ -55,7 +55,7 @@ class SGmailer
 			file.close
 			puts "\tAdded plain text email scaffold in app/views/sgmailer/email_plain.html.erb"
 			
-			file = File.new("app/views/sgmailer/email_html.html.erb", "w")
+			file = File.new("app/views/s_gmailer/email_html.html.erb", "w")
 			file.puts helper.get_text(:html)
 			file.close
 			puts "\tAdded HTML scaffold in app/views/sgmailer/email_html.html.erb"

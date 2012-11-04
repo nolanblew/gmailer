@@ -150,7 +150,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 62</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 75</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">args</span>)
         <span class="ruby-ivar">@username</span> = <span class="ruby-identifier">username</span>
         <span class="ruby-ivar">@password</span> = <span class="ruby-identifier">password</span>
@@ -188,7 +188,7 @@
 
           
           <div class="method-source-code" id="arg_exists-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 154</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 167</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_exists?</span> <span class="ruby-identifier">cmd</span>
         <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
                 <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">cmd</span>
@@ -223,7 +223,7 @@
 
           
           <div class="method-source-code" id="check_files-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 68</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 81</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check_files?</span>
         <span class="ruby-comment">#Environment</span>
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;config/environment.rb&quot;</span>
@@ -244,13 +244,13 @@
         
         <span class="ruby-comment">#Check for directory</span>
         <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-string">&quot;app/mailers&quot;</span>
-                <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/mailers/sgmailer.rb&quot;</span>
+                <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/mailers/s_gmailer.rb&quot;</span>
                         <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
                 <span class="ruby-keyword">end</span>
         <span class="ruby-keyword">end</span>
         
         <span class="ruby-comment">#Check for templates</span>
-        <span class="ruby-keyword">if</span> ((<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/sgmailer/email_plain.html.erb&quot;</span>) <span class="ruby-operator">||</span> (<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/sgmailer/email_html.html.erb&quot;</span>))
+        <span class="ruby-keyword">if</span> ((<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/s_gmailer/email_plain.html.erb&quot;</span>) <span class="ruby-operator">||</span> (<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/s_gmailer/email_html.html.erb&quot;</span>))
                 <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
         <span class="ruby-keyword">end</span>
         
@@ -283,7 +283,7 @@
 
           
           <div class="method-source-code" id="get_text-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 103</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 116</span>
         <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_text</span>(<span class="ruby-identifier">text</span>)
                 <span class="ruby-keyword">if</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:environment</span>)
                         <span class="ruby-string">&quot;
@@ -310,12 +310,12 @@ ActionMailer::Base.smtp_settings = {
         mail(:to =&gt;    recipient, :subject =&gt; subject) do |format|
                 &quot;</span>
                 <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span>(<span class="ruby-string">&quot;--no-plain&quot;</span>)
-                        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;format.text { render \&quot;email_plain.html.erb\&quot; }\n&quot;</span>
+                        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\t\tformat.text { render \&quot;email_plain.html.erb\&quot; }\n&quot;</span>
                 <span class="ruby-keyword">end</span>
                 <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span>(<span class="ruby-string">&quot;--no-html&quot;</span>)
-                        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;format.html { render \&quot;email_html.html.erb\&quot; }\n&quot;</span>
+                        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\t\tformat.html { render \&quot;email_html.html.erb\&quot; }\n&quot;</span>
                 <span class="ruby-keyword">end</span>
-        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;end
+        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;            end
   end
 end&quot;</span>
                         
