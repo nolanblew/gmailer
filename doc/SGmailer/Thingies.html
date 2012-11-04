@@ -150,7 +150,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 75</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 80</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">args</span>)
         <span class="ruby-ivar">@username</span> = <span class="ruby-identifier">username</span>
         <span class="ruby-ivar">@password</span> = <span class="ruby-identifier">password</span>
@@ -188,7 +188,7 @@
 
           
           <div class="method-source-code" id="arg_exists-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 167</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 201</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_exists?</span> <span class="ruby-identifier">cmd</span>
         <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
                 <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">cmd</span>
@@ -223,7 +223,7 @@
 
           
           <div class="method-source-code" id="check_files-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 81</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 86</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check_files?</span>
         <span class="ruby-comment">#Environment</span>
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;config/environment.rb&quot;</span>
@@ -283,7 +283,7 @@
 
           
           <div class="method-source-code" id="get_text-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 116</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 121</span>
         <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_text</span>(<span class="ruby-identifier">text</span>)
                 <span class="ruby-keyword">if</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:environment</span>)
                         <span class="ruby-string">&quot;
@@ -306,8 +306,16 @@ ActionMailer::Base.smtp_settings = {
                 <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:emailer</span>)
                         <span class="ruby-identifier">rt</span> = <span class="ruby-node">&quot;class SGmailer &lt; ActionMailer::Base
   default :from =&gt; \&quot;#{@username}\&quot;
-  def email(recipient, subject)
-        mail(:to =&gt;    recipient, :subject =&gt; subject) do |format|
+  def email(recipient, subject&quot;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
+        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;, message&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;)
+        &quot;</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
+                <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;@message = message\n&quot;</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;    mail(:to =&gt;        recipient, :subject =&gt; subject) do |format|
                 &quot;</span>
                 <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span>(<span class="ruby-string">&quot;--no-plain&quot;</span>)
                         <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\t\tformat.text { render \&quot;email_plain.html.erb\&quot; }\n&quot;</span>
@@ -317,20 +325,41 @@ ActionMailer::Base.smtp_settings = {
                 <span class="ruby-keyword">end</span>
         <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;            end
   end
+  
+  def send_email(recipient, subject&quot;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span>(<span class="ruby-string">&quot;--no-message&quot;</span>)
+        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;, message&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span><span class="ruby-string">&quot;)
+        mail(recipient, subject&quot;</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span>(<span class="ruby-string">&quot;--no-message&quot;</span>)
+                <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;, message&quot;</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;).deliver
+  end
+  
 end&quot;</span>
                         
                         <span class="ruby-identifier">rt</span>
                 <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:plain</span>)
-                        <span class="ruby-string">&quot;This is a sample email.
-                        Your system works!
-                        
-                        YIPPEEE!!!!&quot;</span>
+                        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
+                                <span class="ruby-string">&quot;This is a sample email.
+                                Your system works!
+                                
+                                YIPPEEE!!!!&quot;</span>
+                        <span class="ruby-keyword">else</span>
+                                <span class="ruby-string">&quot;&lt;%= @message %&gt;&quot;</span>
+                        <span class="ruby-keyword">end</span>
                         
                 <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:html</span>)
+                        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
                         <span class="ruby-string">&quot;This is a sample email.&lt;/br&gt;
                         &lt;span style='color:green'&gt;Your system &lt;b&gt;works!&lt;/b&gt;&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;
                         
                         YIPEEEEE!!!!&quot;</span>
+                        <span class="ruby-keyword">else</span>
+                                <span class="ruby-string">&quot;&lt;pre&gt;&lt;%= @message %&gt;&lt;/pre&gt;&quot;</span>
+                        <span class="ruby-keyword">end</span>
                 <span class="ruby-keyword">end</span>
         <span class="ruby-keyword">end</span></pre>
           </div><!-- get_text-source -->

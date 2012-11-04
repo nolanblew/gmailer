@@ -50,15 +50,20 @@ class SGmailer
 				puts "\tCreated views/s_gmailer directory"
 			end
 			
-			file = File.new("app/views/s_gmailer/email_plain.html.erb", "w")
-			file.puts helper.get_text(:plain)
-			file.close
-			puts "\tAdded plain text email scaffold in app/views/sgmailer/email_plain.html.erb"
 			
-			file = File.new("app/views/s_gmailer/email_html.html.erb", "w")
-			file.puts helper.get_text(:html)
-			file.close
-			puts "\tAdded HTML scaffold in app/views/sgmailer/email_html.html.erb"
+			if !arg_exists?("--no-plain")
+				file = File.new("app/views/s_gmailer/email_plain.html.erb", "w")
+				file.puts helper.get_text(:plain)
+				file.close
+				puts "\tAdded plain text email scaffold in app/views/sgmailer/email_plain.html.erb"
+			end
+			
+			if !arg_exists?("--no-plain")
+				file = File.new("app/views/s_gmailer/email_html.html.erb", "w")
+				file.puts helper.get_text(:html)
+				file.close
+				puts "\tAdded HTML scaffold in app/views/sgmailer/email_html.html.erb"
+			end
 			
 			puts "\nComplete! Edit the email scaffolds with your email (and dynamic text)."
 			puts "To send an email, in the controller use: SGmailer.email([to address], [subject]).deliver"
@@ -135,8 +140,16 @@ ActionMailer::Base.smtp_settings = {
 		elsif (text == :emailer)
 			rt = "class SGmailer < ActionMailer::Base
   default :from => \"#{@username}\"
-  def email(recipient, subject)
-	mail(:to =>	recipient, :subject => subject) do |format|
+  def email(recipient, subject"
+  if !arg_exists? "--no-message"
+	rt = rt + ", message"
+  end
+  rt = rt + ")
+	"
+	if !arg_exists? "--no-message"
+		rt = rt + "@message = message\n"
+	end
+	rt = rt + "	mail(:to =>	recipient, :subject => subject) do |format|
 		"
 		if !arg_exists?("--no-plain")
 			rt = rt + "\t\tformat.text { render \"email_plain.html.erb\" }\n"
@@ -146,20 +159,41 @@ ActionMailer::Base.smtp_settings = {
 		end
 	rt = rt + "		end
   end
+  
+  def send_email(recipient, subject"
+  if !arg_exists?("--no-message")
+	rt = rt + ", message"
+  end
+  rt = rt +")
+	mail(recipient, subject"
+	if !arg_exists?("--no-message")
+		rt = rt + ", message"
+	end
+	rt = rt + ").deliver
+  end
+  
 end"
 			
 			rt
 		elsif (text == :plain)
-			"This is a sample email.
-			Your system works!
-			
-			YIPPEEE!!!!"
+			if !arg_exists? "--no-message"
+				"This is a sample email.
+				Your system works!
+				
+				YIPPEEE!!!!"
+			else
+				"<%= @message %>"
+			end
 			
 		elsif (text == :html)
+			if !arg_exists? "--no-message"
 			"This is a sample email.</br>
 			<span style='color:green'>Your system <b>works!</b></span><br/><br/>
 			
 			YIPEEEEE!!!!"
+			else
+				"<pre><%= @message %></pre>"
+			end
 		end
 	end
 	

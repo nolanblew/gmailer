@@ -196,15 +196,20 @@
                         <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tCreated views/s_gmailer directory&quot;</span>
                 <span class="ruby-keyword">end</span>
                 
-                <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/views/s_gmailer/email_plain.html.erb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
-                <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">helper</span>.<span class="ruby-identifier">get_text</span>(<span class="ruby-value">:plain</span>)
-                <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
-                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded plain text email scaffold in app/views/sgmailer/email_plain.html.erb&quot;</span>
                 
-                <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/views/s_gmailer/email_html.html.erb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
-                <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">helper</span>.<span class="ruby-identifier">get_text</span>(<span class="ruby-value">:html</span>)
-                <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
-                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded HTML scaffold in app/views/sgmailer/email_html.html.erb&quot;</span>
+                <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span>(<span class="ruby-string">&quot;--no-plain&quot;</span>)
+                        <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/views/s_gmailer/email_plain.html.erb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
+                        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">helper</span>.<span class="ruby-identifier">get_text</span>(<span class="ruby-value">:plain</span>)
+                        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
+                        <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded plain text email scaffold in app/views/sgmailer/email_plain.html.erb&quot;</span>
+                <span class="ruby-keyword">end</span>
+                
+                <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span>(<span class="ruby-string">&quot;--no-plain&quot;</span>)
+                        <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;app/views/s_gmailer/email_html.html.erb&quot;</span>, <span class="ruby-string">&quot;w&quot;</span>)
+                        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">helper</span>.<span class="ruby-identifier">get_text</span>(<span class="ruby-value">:html</span>)
+                        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">close</span>
+                        <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tAdded HTML scaffold in app/views/sgmailer/email_html.html.erb&quot;</span>
+                <span class="ruby-keyword">end</span>
                 
                 <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\nComplete! Edit the email scaffolds with your email (and dynamic text).&quot;</span>
                 <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;To send an email, in the controller use: SGmailer.email([to address], [subject]).deliver&quot;</span>
