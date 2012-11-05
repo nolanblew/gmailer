@@ -51,14 +51,14 @@ class SGmailer
 			end
 			
 			
-			if !arg_exists?("--no-plain")
+			if !helper.arg_exists?("--no-plain")
 				file = File.new("app/views/s_gmailer/email_plain.html.erb", "w")
 				file.puts helper.get_text(:plain)
 				file.close
 				puts "\tAdded plain text email scaffold in app/views/sgmailer/email_plain.html.erb"
 			end
 			
-			if !arg_exists?("--no-plain")
+			if !helper.arg_exists?("--no-plain")
 				file = File.new("app/views/s_gmailer/email_html.html.erb", "w")
 				file.puts helper.get_text(:html)
 				file.close
