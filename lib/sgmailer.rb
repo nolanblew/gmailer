@@ -55,7 +55,7 @@ class SGmailer
 			
 			puts "\nComplete! Edit the email scaffolds with your email (and dynamic text)."
 			extra = ""
-			if !helper.arg_exists?("--no-message"
+			if !helper.arg_exists?("--no-message")
 				extra = ", [message]"
 			end
 			puts "To send an email, in the controller use: SGmailer.send_email([to address], [subject]" + extra + ")"
