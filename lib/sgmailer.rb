@@ -54,7 +54,11 @@ class SGmailer
 			end
 			
 			puts "\nComplete! Edit the email scaffolds with your email (and dynamic text)."
-			puts "To send an email, in the controller use: SGmailer.email([to address], [subject]).deliver"
+			extra = ""
+			if !helper.arg_exists?("--no-message"
+				extra = ", [message]"
+			end
+			puts "To send an email, in the controller use: SGmailer.send_email([to address], [subject]" + extra + ")"
 			
 		else
 			puts "\tError. Please put your gmail username and password."
@@ -153,7 +157,7 @@ ActionMailer::Base.smtp_settings = {
 	rt = rt + ", message"
   end
   rt = rt +")
-	mail(recipient, subject"
+	self.email(recipient, subject"
 	if !arg_exists?("--no-message")
 		rt = rt + ", message"
 	end
