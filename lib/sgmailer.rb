@@ -26,10 +26,10 @@ class SGmailer
 				Dir.mkdir("app/mailers", 755)
 				puts "\tCreated mailer directory"
 			end
-			file = File.new("app/mailers/sgmailer.rb", "w")
+			file = File.new("app/mailers/s_gmailer.rb", "w")
 			file.puts helper.get_text(:emailer)
 			file.close
-			puts "\tAdded Mailer in app/mailers/sgmailer.rb"
+			puts "\tAdded Mailer in app/mailers/s_gmailer.rb"
 			
 			#Add require in application controller
 			file = File.open("app/controllers/application_controller.rb", "r")
@@ -176,7 +176,7 @@ end"
 			
 			rt
 		elsif (text == :plain)
-			if !arg_exists? "--no-message"
+			if arg_exists? "--no-message"
 				"This is a sample email.
 				Your system works!
 				
@@ -186,7 +186,7 @@ end"
 			end
 			
 		elsif (text == :html)
-			if !arg_exists? "--no-message"
+			if arg_exists? "--no-message"
 			"This is a sample email.</br>
 			<span style='color:green'>Your system <b>works!</b></span><br/><br/>
 			
