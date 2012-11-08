@@ -30,19 +30,7 @@ class SGmailer
 			file.puts helper.get_text(:emailer)
 			file.close
 			puts "\tAdded Mailer in app/mailers/s_gmailer.rb"
-			
-			#Add require in application controller
-			file = File.open("app/controllers/application_controller.rb", "r")
-			ac = ""
-			while line = file.gets
-				ac = ac + line
-			end
-			file.close()
-			file = File.open("app/controllers/application_controller.rb", "w+")
-			file.puts "require 'SGmailer'"
-			file.puts ac
-			file.close
-			puts "\tModified application controller to require SGmailer throughout your application"
+
 			
 			#Generate email scaffolds
 			if (!File.directory? "app/views/s_gmailer")
