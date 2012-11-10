@@ -152,7 +152,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 138</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 133</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">args</span>)
         <span class="ruby-ivar">@username</span> = <span class="ruby-identifier">username</span>
         <span class="ruby-ivar">@password</span> = <span class="ruby-identifier">password</span>
@@ -202,7 +202,7 @@
 
           
           <div class="method-source-code" id="arg_exists-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 295</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 297</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_exists?</span> <span class="ruby-identifier">cmd</span>
         <span class="ruby-ivar">@all_args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
                 <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">cmd</span>
@@ -237,7 +237,7 @@
 
           
           <div class="method-source-code" id="check_files-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 156</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 151</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check_files?</span>
         <span class="ruby-comment">#Environment</span>
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;config/environment.rb&quot;</span>
@@ -301,7 +301,7 @@
 
           
           <div class="method-source-code" id="get_params-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 304</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 306</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_params</span>
         <span class="ruby-ivar">@args</span>
 <span class="ruby-keyword">end</span></pre>
@@ -331,12 +331,12 @@
 
           
           <div class="method-source-code" id="get_text-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 195</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 190</span>
         <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_text</span>(<span class="ruby-identifier">text</span>)
                 <span class="ruby-keyword">if</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:environment</span>)
                         <span class="ruby-identifier">psw</span> = <span class="ruby-string">&quot;\&quot;&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@password</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\&quot;&quot;</span>
                         <span class="ruby-keyword">if</span> (<span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--isolate-password&quot;</span>)
-                                <span class="ruby-identifier">psw</span> = <span class="ruby-string">&quot;File.load(\&quot;config/password.psw\&quot;)&quot;</span>
+                                <span class="ruby-identifier">psw</span> = <span class="ruby-string">&quot;psw&quot;</span>
                         <span class="ruby-keyword">end</span>
                         <span class="ruby-string">&quot;
                         
@@ -344,6 +344,13 @@ ActionMailer::Base.delivery_method = :smtp
 
 ActionMailer::Base.raise_delivery_errors = true
 ActionMailer::Base.perform_deliveries = true
+
+psw = \&quot;\&quot;
+if File.exists?(\&quot;config/password.psw\&quot;)
+        file = File.open(\&quot;config/password.psw\&quot;, \&quot;r\&quot;)
+        psw = file.gets
+        file.close
+end
 
 ActionMailer::Base.smtp_settings = {
         :address =&gt; \&quot;smtp.gmail.com\&quot;,

@@ -14,11 +14,6 @@ class SGmailer
 				puts "\tError, you already have an emailer system in place. Please remove all traces of the emailer system before generating a new one."
 				return false
 			end
-			
-			puts "Args:"
-			args.each do |a|
-				puts a
-			end
 		
 			puts "\tReady to go!"
 			#Add email info to the end of environment.rb
@@ -196,7 +191,7 @@ class SGmailer::Thingies
 		if (text == :environment)
 			psw = "\"" + @password + "\""
 			if (arg_exists? "--isolate-password")
-				psw = "File.load(\"config/password.psw\")"
+				psw = "psw"
 			end
 			"
 			
@@ -204,6 +199,13 @@ ActionMailer::Base.delivery_method = :smtp
 
 ActionMailer::Base.raise_delivery_errors = true
 ActionMailer::Base.perform_deliveries = true
+
+psw = \"\"
+if File.exists?(\"config/password.psw\")
+	file = File.open(\"config/password.psw\", \"r\")
+	psw = file.gets
+	file.close
+end
 
 ActionMailer::Base.smtp_settings = {
 	:address => \"smtp.gmail.com\",
