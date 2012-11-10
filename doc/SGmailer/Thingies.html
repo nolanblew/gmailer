@@ -152,7 +152,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 74</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 100</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">args</span>)
         <span class="ruby-ivar">@username</span> = <span class="ruby-identifier">username</span>
         <span class="ruby-ivar">@password</span> = <span class="ruby-identifier">password</span>
@@ -201,7 +201,7 @@
 
           
           <div class="method-source-code" id="arg_exists-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 222</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 248</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_exists?</span> <span class="ruby-identifier">cmd</span>
         <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
                 <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">cmd</span>
@@ -236,7 +236,7 @@
 
           
           <div class="method-source-code" id="check_files-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 91</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 117</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check_files?</span>
         <span class="ruby-comment">#Environment</span>
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;config/environment.rb&quot;</span>
@@ -296,7 +296,7 @@
 
           
           <div class="method-source-code" id="get_params-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 231</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 257</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_params</span>
         <span class="ruby-ivar">@args</span>
 <span class="ruby-keyword">end</span></pre>
@@ -326,7 +326,7 @@
 
           
           <div class="method-source-code" id="get_text-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 126</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 152</span>
         <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_text</span>(<span class="ruby-identifier">text</span>)
                 <span class="ruby-keyword">if</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:environment</span>)
                         <span class="ruby-string">&quot;

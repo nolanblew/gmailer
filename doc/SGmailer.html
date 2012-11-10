@@ -70,6 +70,8 @@
 
   <ul class="link-list">
     
+    <li><a href="#method-c-cleanup">::cleanup</a>
+    
     <li><a href="#method-c-generate">::generate</a>
     
   </ul>
@@ -128,6 +130,56 @@
       <h3 class="section-header">Public Class Methods</h3>
 
     
+      <div id="method-c-cleanup" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cleanup</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="cleanup-source">
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 72</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">cleanup</span>
+<span class="ruby-comment">#Environment</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;config/environment.rb&quot;</span>
+                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Please create a rails project that has an environment.rb file&quot;</span>
+        <span class="ruby-keyword">end</span>
+        
+        
+        <span class="ruby-comment">#Check for directory</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-string">&quot;app/mailers&quot;</span>
+                <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/mailers/s_gmailer.rb&quot;</span>
+                        <span class="ruby-constant">File</span>.<span class="ruby-identifier">delete</span> <span class="ruby-string">&quot;app/mailers/s_gmailer.rb&quot;</span>
+                        <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Deleted app/mailers/s_gmailer.rb&quot;</span>
+                <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+        
+        <span class="ruby-comment">#Check for templates</span>
+        <span class="ruby-keyword">if</span> ((<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/s_gmailer/email_plain.html.erb&quot;</span>) <span class="ruby-operator">||</span> (<span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;app/views/s_gmailer/email_html.html.erb&quot;</span>))
+                <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">rm_rf</span>(<span class="ruby-string">'app/views/s_gmailer'</span>)
+                <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Delted mailer views&quot;</span>
+        <span class="ruby-keyword">end</span>
+        
+        <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Please check your config/environment.rb file and delete all SMTP and ActionMailer lines manually, if they exist.&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cleanup-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cleanup-method -->
+
+    
       <div id="method-c-generate" class="method-detail ">
         
         <div class="method-heading">
@@ -144,7 +196,7 @@
 
           
           <div class="method-source-code" id="generate-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 2</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 4</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">generate</span> <span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">args</span>
                 
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">username</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">password</span>.<span class="ruby-identifier">nil?</span>)
@@ -211,7 +263,6 @@
         <span class="ruby-keyword">else</span>
                 <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\tError. Please put your gmail username and password.&quot;</span>
         <span class="ruby-keyword">end</span>
-        
 <span class="ruby-keyword">end</span></pre>
           </div><!-- generate-source -->
           

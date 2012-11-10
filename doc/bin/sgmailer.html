@@ -77,16 +77,24 @@
 
 <pre>puts SGmailer.generate(ARGV[1], ARGV[2], ARGV)</pre>
 
+<p>elsif (first_rg == “cleanup”)</p>
+
+<pre>puts SGmailer.cleanup</pre>
+
 <p>elsif (first_rg == “–help”)</p>
 
 <pre>puts &quot;Commands:&quot;
-puts &quot;sgmailer generate [username] [password] ([flags])&quot;
+puts &quot;sgmailer generate [username] [password] ([args]) ([flags])&quot;
 puts &quot;\tusername: your gmail username&quot;
 puts &quot;\tpassword: your gmail password&quot;
 puts &quot;\t[args] - name for arguments to pass in that will be viewed on the email message. Optional. If not included, will only have 'message' parameter&quot;
 puts &quot;\n\tflags:\n\t\t--no-plain: Do not include plain-text template in email&quot;
 puts &quot;\t\t--no-html: Do not include HTML template in email&quot;
 puts &quot;\t\t--no-message: Do not include a message field, but rather a default template&quot;
+
+puts &quot;\n\n\sgmailer cleanup&quot;
+puts &quot;\tDeletes all your mail files for you so you can re-generate the code&quot;
+puts &quot;\tWARNING: This will permanetly delete your mailer files. Any saved changes will be deleted&quot;
 puts &quot;\n\n\tTo send an email, in your controller use: SGmailer.send_email(to-address, subject, parameters[..])&quot;</pre>
 
 <p>else</p>

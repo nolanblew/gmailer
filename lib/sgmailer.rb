@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class SGmailer
 	def self.generate username, password, args
 			
@@ -65,8 +67,32 @@ class SGmailer
 		else
 			puts "\tError. Please put your gmail username and password."
 		end
-		
 	end
+	
+	def self.cleanup
+	#Environment
+		if !File.exists? "config/environment.rb"
+			puts "Please create a rails project that has an environment.rb file"
+		end
+		
+		
+		#Check for directory
+		if File.directory? "app/mailers"
+			if File.exists? "app/mailers/s_gmailer.rb"
+				File.delete "app/mailers/s_gmailer.rb"
+				puts "Deleted app/mailers/s_gmailer.rb"
+			end
+		end
+		
+		#Check for templates
+		if ((File.exists? "app/views/s_gmailer/email_plain.html.erb") || (File.exists? "app/views/s_gmailer/email_html.html.erb"))
+			FileUtils.rm_rf('app/views/s_gmailer')
+			puts "Delted mailer views"
+		end
+		
+		puts "Please check your config/environment.rb file and delete all SMTP and ActionMailer lines manually, if they exist."
+	end
+	
 end	
 
 class SGmailer::Thingies
