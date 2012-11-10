@@ -56,7 +56,9 @@ class SGmailer
 			puts "\nComplete! Edit the email scaffolds with your email (and dynamic text)."
 			extra = ""
 			if !helper.arg_exists?("--no-message")
-				extra = ", [message]"
+				helper.get_params.each do |a|
+					extra = extra +  ", [" + a + "]"
+				end
 			end
 			puts "To send an email, in the controller use: SGmailer.send_email([to address], [subject]" + extra + ")"
 			
@@ -72,7 +74,18 @@ class SGmailer::Thingies
 	def initialize(username, password, args)
 		@username = username
 		@password = password
-		@args = args
+		
+		i = 3
+		a = args[i]
+		@args = []
+		while (a != nil && !a.include?("--"))
+			@args << a
+			i = i + 1
+			a = args[i]
+		end
+		if (@args.count == 0)
+			@args << "message"
+		end
 	end
 
 	def check_files?
@@ -134,12 +147,16 @@ ActionMailer::Base.smtp_settings = {
   default :from => \"#{@username}\"
   def email(recipient, subject"
   if !arg_exists? "--no-message"
-	rt = rt + ", message"
+	@args.each do |a|
+		rt = rt + ", " + a
+	end
   end
   rt = rt + ")
 	"
 	if !arg_exists? "--no-message"
-		rt = rt + "@message = message\n"
+		@args.each do |a|
+			rt = rt + "\t@" + a + " = " + a + "\n"
+		end
 	end
 	rt = rt + "	mail(:to =>	recipient, :subject => subject) do |format|
 		"
@@ -154,12 +171,16 @@ ActionMailer::Base.smtp_settings = {
   
   def send_email(recipient, subject"
   if !arg_exists?("--no-message")
-	rt = rt + ", message"
+	@args.each do |a|
+		rt = rt + ", " + a
+	end
   end
   rt = rt +")
 	self.email(recipient, subject"
 	if !arg_exists?("--no-message")
-		rt = rt + ", message"
+		@args.each do |a|
+			rt = rt + ", " + a
+		end
 	end
 	rt = rt + ").deliver
   end
@@ -174,7 +195,11 @@ end"
 				
 				YIPPEEE!!!!"
 			else
-				"<%= @message %>"
+				rtn = ""
+				@args.each do |a|
+					rtn = rtn + a + "\n<%= @" + a + " %>\n\n"
+				end
+				return rtn
 			end
 			
 		elsif (text == :html)
@@ -184,7 +209,11 @@ end"
 			
 			YIPEEEEE!!!!"
 			else
-				"<pre><%= @message %></pre>"
+				rtn = ""
+				@args.each do |a|
+					rtn = rtn + "<b>" + a + "</b><br/>\n<pre><%= @" + a + " %></pre><br/><br/>\n\n"
+				end
+				return rtn
 			end
 		end
 	end
@@ -197,5 +226,9 @@ end"
 			end
 		end
 		false
+	end
+	
+	def get_params
+		@args
 	end
 end

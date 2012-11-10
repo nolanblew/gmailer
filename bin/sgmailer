@@ -8,10 +8,11 @@ elsif (first_rg == "--help")
 	puts "sgmailer generate [username] [password] ([flags])"
 	puts "\tusername: your gmail username"
 	puts "\tpassword: your gmail password"
-	puts "\tflags:\n\t\t--no-plain: Do not include plain-text template in email"
-	puts "\n\t\t--no-html: Do not include HTML template in email"
-	puts "\n\t\t--no-message: Do not include a message field, but rather a default template"
-	puts "\n\n\tTo send an email, in your controller use: SGmailer.send_email(to-address, subject, email-message)"
+	puts "\t[args] - name for arguments to pass in that will be viewed on the email message. Optional. If not included, will only have 'message' parameter"
+	puts "\n\tflags:\n\t\t--no-plain: Do not include plain-text template in email"
+	puts "\t\t--no-html: Do not include HTML template in email"
+	puts "\t\t--no-message: Do not include a message field, but rather a default template"
+	puts "\n\n\tTo send an email, in your controller use: SGmailer.send_email(to-address, subject, parameters[..])"
 else
 	puts "Error, unrecognized command. Please type in 'sgmailer --help' for help."
 end
