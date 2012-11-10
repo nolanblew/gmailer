@@ -23,6 +23,32 @@ class SGmailer
 			
 			puts "\tModified config/environment.rb"
 			
+			#Check to see if we want to put the password in a seperate file
+			if (helper.arg_exists? "--isolate-password")
+				file = File.open("config/password.psw", "w")
+				file.puts password
+				file.close
+				puts "\tWrote password to seperate file"
+				
+				ex = false
+				if (File.exists? ".gitignore")
+					file = File.open(".gitignore", "r")
+					file.each do |line|
+						if line.include? "*.psw"
+							ex = true
+						end
+					end
+					
+					if (ex == false)
+						file = File.open(".gitignore", "a")
+						file.puts "\n\n# Ignore email password file"
+						file.puts "/config/*.psw"
+						file.close
+						puts "\tUpdated gitignore file to not include password file"
+					end
+				end
+			end
+			
 			#Generate file for mailer
 			if (!File.directory? "app/mailers")
 				Dir.mkdir("app/mailers", 755)
@@ -63,6 +89,9 @@ class SGmailer
 				end
 			end
 			puts "To send an email, in the controller use: SGmailer.send_email([to address], [subject]" + extra + ")"
+			if (helper.arg_exists?("--isolate-password"))
+				puts "IMPORTANT! You MUST copy over config/password.psw to any development or production instance, otherwise errors will occur. This file will not be included in your git repository."
+			end
 			
 		else
 			puts "\tError. Please put your gmail username and password."
@@ -73,6 +102,10 @@ class SGmailer
 	#Environment
 		if !File.exists? "config/environment.rb"
 			puts "Please create a rails project that has an environment.rb file"
+		end
+		
+		if File.exists? "config/password.psw"
+			File.delete "config/password.psw"
 		end
 		
 		
@@ -132,6 +165,10 @@ class SGmailer::Thingies
 			return false
 		end
 		
+		if File.exists? "config/password.psw"
+			return false
+		end
+		
 		#Check for directory
 		if File.directory? "app/mailers"
 			if File.exists? "app/mailers/s_gmailer.rb"
@@ -151,6 +188,10 @@ class SGmailer::Thingies
 	
 	def get_text(text)
 		if (text == :environment)
+			psw = "\"" + @password + "\""
+			if (arg_exists? "--isolate-password")
+				psw = "File.load(\"config/password.psw\")"
+			end
 			"
 			
 ActionMailer::Base.delivery_method = :smtp
@@ -163,11 +204,11 @@ ActionMailer::Base.smtp_settings = {
 	:port => 587,
 	:authentication => :plain,
 	:user_name => \"" + @username + "\",
-	:password => \"" + @password + "\",
+	:password => " + psw + ",
 	:enable_starttls_auto => true,
 	:openssl_verify_mode => \"none\"
 }"
-		
+
 		elsif (text == :emailer)
 			rt = "class SGmailer < ActionMailer::Base
   default :from => \"#{@username}\"
@@ -223,7 +264,7 @@ end"
 			else
 				rtn = ""
 				@args.each do |a|
-					rtn = rtn + a.titleize + ":\n<%= @" + a + " %>\n\n"
+					rtn = rtn + a + ":\n<%= @" + a + " %>\n\n"
 				end
 				return rtn
 			end
@@ -237,7 +278,7 @@ end"
 			else
 				rtn = ""
 				@args.each do |a|
-					rtn = rtn + "<b>" + a.titleize + ":</b><br/>\n<pre><%= @" + a + " %></pre><br/><br/>\n\n"
+					rtn = rtn + "<b>" + a + ":</b><br/>\n<pre><%= @" + a + " %></pre><br/><br/>\n\n"
 				end
 				return rtn
 			end
