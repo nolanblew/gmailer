@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<meta content="text/html; charset=IBM437" http-equiv="Content-Type">
+<meta content="text/html; charset=Windows-1252" http-equiv="Content-Type">
 
 <title>class SGmailer::Thingies - RDoc Documentation</title>
 
@@ -75,6 +75,8 @@
     <li><a href="#method-i-arg_exists-3F">#arg_exists?</a>
     
     <li><a href="#method-i-check_files-3F">#check_files?</a>
+    
+    <li><a href="#method-i-get_params">#get_params</a>
     
     <li><a href="#method-i-get_text">#get_text</a>
     
@@ -150,11 +152,22 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 80</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 74</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">username</span>, <span class="ruby-identifier">password</span>, <span class="ruby-identifier">args</span>)
         <span class="ruby-ivar">@username</span> = <span class="ruby-identifier">username</span>
         <span class="ruby-ivar">@password</span> = <span class="ruby-identifier">password</span>
-        <span class="ruby-ivar">@args</span> = <span class="ruby-identifier">args</span>
+        
+        <span class="ruby-identifier">i</span> = <span class="ruby-value">3</span>
+        <span class="ruby-identifier">a</span> = <span class="ruby-identifier">args</span>[<span class="ruby-identifier">i</span>]
+        <span class="ruby-ivar">@args</span> = []
+        <span class="ruby-keyword">while</span> (<span class="ruby-identifier">a</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">a</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&quot;--&quot;</span>))
+                <span class="ruby-ivar">@args</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">a</span>
+                <span class="ruby-identifier">i</span> = <span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+                <span class="ruby-identifier">a</span> = <span class="ruby-identifier">args</span>[<span class="ruby-identifier">i</span>]
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">if</span> (<span class="ruby-ivar">@args</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>)
+                <span class="ruby-ivar">@args</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;message&quot;</span>
+        <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- new-source -->
           
@@ -188,7 +201,7 @@
 
           
           <div class="method-source-code" id="arg_exists-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 201</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 222</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_exists?</span> <span class="ruby-identifier">cmd</span>
         <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
                 <span class="ruby-keyword">if</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">cmd</span>
@@ -223,7 +236,7 @@
 
           
           <div class="method-source-code" id="check_files-3F-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 86</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 91</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check_files?</span>
         <span class="ruby-comment">#Environment</span>
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-string">&quot;config/environment.rb&quot;</span>
@@ -267,6 +280,36 @@
       </div><!-- check_files-3F-method -->
 
     
+      <div id="method-i-get_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_params</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_params-source">
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 231</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_params</span>
+        <span class="ruby-ivar">@args</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_params-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_params-method -->
+
+    
       <div id="method-i-get_text" class="method-detail ">
         
         <div class="method-heading">
@@ -283,7 +326,7 @@
 
           
           <div class="method-source-code" id="get_text-source">
-            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 121</span>
+            <pre><span class="ruby-comment"># File lib/sgmailer.rb, line 126</span>
         <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_text</span>(<span class="ruby-identifier">text</span>)
                 <span class="ruby-keyword">if</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:environment</span>)
                         <span class="ruby-string">&quot;
@@ -308,12 +351,16 @@ ActionMailer::Base.smtp_settings = {
   default :from =&gt; \&quot;#{@username}\&quot;
   def email(recipient, subject&quot;</span>
   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
-        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;, message&quot;</span>
+        <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
+                <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;, &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span>
+        <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;)
         &quot;</span>
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
-                <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;@message = message\n&quot;</span>
+                <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
+                        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\t@&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot; = &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n&quot;</span>
+                <span class="ruby-keyword">end</span>
         <span class="ruby-keyword">end</span>
         <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;    mail(:to =&gt;        recipient, :subject =&gt; subject) do |format|
                 &quot;</span>
@@ -328,12 +375,16 @@ ActionMailer::Base.smtp_settings = {
   
   def send_email(recipient, subject&quot;</span>
   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span>(<span class="ruby-string">&quot;--no-message&quot;</span>)
-        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;, message&quot;</span>
+        <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
+                <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;, &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span>
+        <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span><span class="ruby-string">&quot;)
-        mail(recipient, subject&quot;</span>
+        self.email(recipient, subject&quot;</span>
         <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span>(<span class="ruby-string">&quot;--no-message&quot;</span>)
-                <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;, message&quot;</span>
+                <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
+                        <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;, &quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span>
+                <span class="ruby-keyword">end</span>
         <span class="ruby-keyword">end</span>
         <span class="ruby-identifier">rt</span> = <span class="ruby-identifier">rt</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;).deliver
   end
@@ -342,23 +393,31 @@ end&quot;</span>
                         
                         <span class="ruby-identifier">rt</span>
                 <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:plain</span>)
-                        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
+                        <span class="ruby-keyword">if</span> <span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
                                 <span class="ruby-string">&quot;This is a sample email.
                                 Your system works!
                                 
                                 YIPPEEE!!!!&quot;</span>
                         <span class="ruby-keyword">else</span>
-                                <span class="ruby-string">&quot;&lt;%= @message %&gt;&quot;</span>
+                                <span class="ruby-identifier">rtn</span> = <span class="ruby-string">&quot;&quot;</span>
+                                <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
+                                        <span class="ruby-identifier">rtn</span> = <span class="ruby-identifier">rtn</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">titleize</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;:\n&lt;%= @&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot; %&gt;\n\n&quot;</span>
+                                <span class="ruby-keyword">end</span>
+                                <span class="ruby-keyword">return</span> <span class="ruby-identifier">rtn</span>
                         <span class="ruby-keyword">end</span>
                         
                 <span class="ruby-keyword">elsif</span> (<span class="ruby-identifier">text</span> <span class="ruby-operator">==</span> <span class="ruby-value">:html</span>)
-                        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
+                        <span class="ruby-keyword">if</span> <span class="ruby-identifier">arg_exists?</span> <span class="ruby-string">&quot;--no-message&quot;</span>
                         <span class="ruby-string">&quot;This is a sample email.&lt;/br&gt;
                         &lt;span style='color:green'&gt;Your system &lt;b&gt;works!&lt;/b&gt;&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;
                         
                         YIPEEEEE!!!!&quot;</span>
                         <span class="ruby-keyword">else</span>
-                                <span class="ruby-string">&quot;&lt;pre&gt;&lt;%= @message %&gt;&lt;/pre&gt;&quot;</span>
+                                <span class="ruby-identifier">rtn</span> = <span class="ruby-string">&quot;&quot;</span>
+                                <span class="ruby-ivar">@args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
+                                        <span class="ruby-identifier">rtn</span> = <span class="ruby-identifier">rtn</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;&lt;b&gt;&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">titleize</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;:&lt;/b&gt;&lt;br/&gt;\n&lt;pre&gt;&lt;%= @&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">a</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot; %&gt;&lt;/pre&gt;&lt;br/&gt;&lt;br/&gt;\n\n&quot;</span>
+                                <span class="ruby-keyword">end</span>
+                                <span class="ruby-keyword">return</span> <span class="ruby-identifier">rtn</span>
                         <span class="ruby-keyword">end</span>
                 <span class="ruby-keyword">end</span>
         <span class="ruby-keyword">end</span></pre>

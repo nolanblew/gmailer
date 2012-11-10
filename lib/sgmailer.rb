@@ -197,7 +197,7 @@ end"
 			else
 				rtn = ""
 				@args.each do |a|
-					rtn = rtn + a + "\n<%= @" + a + " %>\n\n"
+					rtn = rtn + a.titleize + ":\n<%= @" + a + " %>\n\n"
 				end
 				return rtn
 			end
@@ -211,7 +211,7 @@ end"
 			else
 				rtn = ""
 				@args.each do |a|
-					rtn = rtn + "<b>" + a + "</b><br/>\n<pre><%= @" + a + " %></pre><br/><br/>\n\n"
+					rtn = rtn + "<b>" + a.titleize + ":</b><br/>\n<pre><%= @" + a + " %></pre><br/><br/>\n\n"
 				end
 				return rtn
 			end
