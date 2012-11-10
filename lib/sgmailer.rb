@@ -14,6 +14,11 @@ class SGmailer
 				puts "\tError, you already have an emailer system in place. Please remove all traces of the emailer system before generating a new one."
 				return false
 			end
+			
+			puts "Args:"
+			args.each do |a|
+				puts a
+			end
 		
 			puts "\tReady to go!"
 			#Add email info to the end of environment.rb
@@ -133,6 +138,7 @@ class SGmailer::Thingies
 	def initialize(username, password, args)
 		@username = username
 		@password = password
+		@all_args = args
 		
 		i = 3
 		a = args[i]
@@ -287,7 +293,7 @@ end"
 	
 	
 	def arg_exists? cmd
-		@args.each do |a|
+		@all_args.each do |a|
 			if a == cmd
 				return true
 			end
